@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS person(
+	person_id 	SERIAL NOT NULL,
+	first_name 	VARCHAR(45) NOT NULL,
+	last_name 	VARCHAR(45) NOT NULL,
+	age			INT NOT NULL,
+	email		VARCHAR(45) NOT NULL,
+	picture		VARCHAR(255) NULL,
+	
+	PRIMARY KEY (person_id)
+);
+
+CREATE TABLE IF NOT EXISTS contact(
+	contact_id SERIAL NOT NULL,
+	contact_type VARCHAR(45) NOT NULL,
+	contact_value VARCHAR(45) NOT NULL,
+	person_id SERIAL NOT NULL,
+	
+	PRIMARY KEY (contact_id),
+	FOREIGN KEY (person_id) REFERENCES person (person_id)
+);
+
+CREATE TABLE IF NOT EXISTS "role"(
+	role_id SERIAL NOT NULL,
+	"role" VARCHAR(45) NOT NULL,
+	
+	PRIMARY KEY (role_id)
+);
+
+CREATE TABLE IF NOT EXISTS person_has_role(
+	person_id SERIAL NOT NULL,
+	role_id SERIAL NOT NULL,
+	
+	FOREIGN KEY (person_id) REFERENCES person (person_id),
+	FOREIGN KEY (role_id) REFERENCES "role" (role_id)
+);
