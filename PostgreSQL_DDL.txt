@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS person(
 );
 
 CREATE TABLE IF NOT EXISTS contact(
-	contact_id SERIAL NOT NULL,
+	contact_id 	SERIAL NOT NULL,
 	contact_type VARCHAR(45) NOT NULL,
 	contact_value VARCHAR(45) NOT NULL,
 	person_id SERIAL NOT NULL,
@@ -32,4 +32,76 @@ CREATE TABLE IF NOT EXISTS person_has_role(
 	
 	FOREIGN KEY (person_id) REFERENCES person (person_id),
 	FOREIGN KEY (role_id) REFERENCES "role" (role_id)
+);
+
+CREATE TABLE IF NOT EXISTS address(
+	address_id SERIAL NOT NULL,
+	city VARCHAR(45) NOT NULL,
+	street VARCHAR(45) NOT NULL,
+	house_number VARCHAR(45) NULL,
+	zip_code VARCHAR(45) NULL,
+	
+	PRIMARY KEY (address_id)
+);
+
+CREATE TABLE IF NOT EXISTS person_has_address(
+	person_id SERIAL NOT NULL,
+	address_id SERIAL NOT NULL,
+	address_type VARCHAR(45) NOT NULL,
+	
+	FOREIGN KEY (person_id) REFERENCES person (person_id),
+	FOREIGN KEY (address_id) REFERENCES address (address_id)
+);
+
+CREATE TABLE IF NOT EXISTS theatre(
+	theatre_id SERIAL NOT NULL,
+	theatre_name VARCHAR(45) NOT NULL,
+	address_id SERIAL NOT NULL,
+	
+	PRIMARY KEY (theatre_id),
+	FOREIGN KEY (address_id) REFERENCES address (address_id)
+);
+
+CREATE TABLE IF NOT EXISTS screen(
+	screen_id SERIAL NOT NULL,
+	screen_number INT NOT NULL,
+	is_3d BOOLEAN NULL,
+	theatre_id INT NOT NULL,
+	
+	PRIMARY KEY (screen_id),
+	FOREIGN KEY (theatre_id) REFERENCES theatre (theatre_id)
+);
+
+CREATE TABLE IF NOT EXISTS film(
+	film_id SERIAL NOT NULL,
+	film_name VARCHAR(45) NOT NULL,
+	PEGI INT NULL,
+	
+	PRIMARY KEY (film_id)
+);
+
+CREATE TABLE IF NOT EXISTS film_has_screen(
+	film_id SERIAL NOT NULL,
+	screen_id SERIAL NOT NULL,
+	
+	FOREIGN KEY (film_id) REFERENCES film (film_id),
+	FOREIGN KEY (screen_id) REFERENCES screen (screen_id)
+);
+
+CREATE TABLE IF NOT EXISTS person_has_screen(
+	person_id SERIAL NOT NULL,
+	screen_id SERIAL NOT NULL,
+	is_employee BOOLEAN NOT NULL,
+	
+	FOREIGN KEY (person_id) REFERENCES person (person_id),
+	FOREIGN KEY (screen_id) REFERENCES screen (screen_id)
+);
+
+CREATE TABLE IF NOT EXISTS person_has_film(
+	person_id SERIAL NOT NULL,
+	film_id SERIAL NOT NULL,
+	is_customer BOOLEAN NOT NULL,
+	
+	FOREIGN KEY (person_id) REFERENCES person (person_id),
+	FOREIGN KEY (film_id) REFERENCES film (film_id)
 );
