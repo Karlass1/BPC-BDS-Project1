@@ -1,6 +1,0 @@
-Get Movies of Person
-SELECT * FROM person p JOIN person_has_film f ON p.person_id = f.person_id JOIN film g ON f.film_id = g.film_id
-
-Get Contacts of Person
-SELECT * FROM person p, contact c WHERE p.person_id = c.person_id
-
